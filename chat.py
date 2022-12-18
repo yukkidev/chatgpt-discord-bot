@@ -55,7 +55,7 @@ async def _chat(ctx, prompt, engine: discord.Option(name="engine", choices=["tex
     embed.add_field(name="Original prompt", value=prompt, inline=False)
     embed.add_field(name="AI Response",
                     value=result, inline=False)
-    embed.set_author(name=_engine)
+    embed.set_author(name=engine)
 
     await discord_response.edit_original_response(content="", embed=embed)
 
