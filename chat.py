@@ -26,7 +26,7 @@ async def on_ready():
 
 
 @client.command(name="chat", description="Chat with ChatGPT, an ai with human like responses.")
-async def _chat(ctx, prompt, engine: discord.Option(name="engine", choices=["text-davinci-002", "text-curie-001", "text-babbage-001", "text-adapter-002"]) = "text-davinci-002", fun_level=0.5):
+async def _chat(ctx, prompt, engine: discord.Option(name="engine", choices=["text-davinci-003", "curie", "babbage", "ada"]) = "text-davinci-003", fun_level=0.5):
 
     # send a message, and save it to edit after the response
     discord_response = await ctx.respond("Ok! Waiting for ChatGPT...")
@@ -62,11 +62,11 @@ async def _chat(ctx, prompt, engine: discord.Option(name="engine", choices=["tex
     # Do some more async work
 
 
-def my_blocking_function(prompt, engine, accuracy, current_char_amount=0):
+def my_blocking_function(prompt, engine, temp, current_char_amount=0):
     ai_response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine=engine,
         prompt=prompt,
-        temperature=float(accuracy),
+        temperature=float(min(1.5,max(accuracy,0))), # sets the temp to a max of 1.5 and a min of 0, depending on the users input (you can increase the 1.5 value to a maximum of 5, but then it's just not that good lol) 
         top_p=1,
         max_tokens=600,
         stop=str(1000-current_char_amount),
